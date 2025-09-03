@@ -1,11 +1,14 @@
 const User = require("../models/user");
+const ERROR_STATUS = require("../utils/errors");
 
 const getUsers = (req, res) => {
   User.find({})
-    .then((users) => res.status(200).send(users))
+    .then((users) => res.status(ERROR_STATUS.OK).send(users))
     .catch((err) => {
       console.error(err);
-      res.status(500).send({ message: "Internal server error" });
+      res
+        .status(ERROR_STATUS.INTERNAL_SERVER.code)
+        .send({ message: ERROR_STATUS.INTERNAL_SERVER.message });
     });
 };
 
@@ -14,18 +17,24 @@ const getUser = (req, res) => {
   User.findById(userId)
     .orFail()
     .then((user) => {
-      return res.status(200).send(user);
+      return res.status(ERROR_STATUS.OK).send(user);
     })
     .catch((err) => {
       console.error(err);
       if (err.name === "CastError") {
-        return res.status(400).send({ message: err.message });
+        return res
+          .status(ERROR_STATUS.BAD_REQUEST)
+          .send({ message: err.message });
       }
       if (err.name === "DocumentNotFoundError") {
-        return res.status(404).send({ message: err.message });
+        return res
+          .status(ERROR_STATUS.NOT_FOUND)
+          .send({ message: err.message });
       }
 
-      return res.status(500).send({ message: "Internal server error" });
+      return res
+        .status(ERROR_STATUS.INTERNAL_SERVER.code)
+        .send({ message: ERROR_STATUS.INTERNAL_SERVER.message });
     });
 };
 
@@ -33,13 +42,17 @@ const createUser = (req, res) => {
   const { name, avatar } = req.body;
 
   User.create({ name, avatar })
-    .then((user) => res.status(201).send({ user }))
+    .then((user) => res.status(ERROR_STATUS.CREATED).send({ user }))
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
-        return res.status(400).send({ message: err.message });
+        return res
+          .status(ERROR_STATUS.BAD_REQUEST)
+          .send({ message: err.message });
       }
-      return res.status(500).send({ message: "Internal server error" });
+      return res
+        .status(ERROR_STATUS.INTERNAL_SERVER.code)
+        .send({ message: ERROR_STATUS.INTERNAL_SERVER.message });
     });
 };
 
