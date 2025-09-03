@@ -48,7 +48,14 @@ const likeItem = (req, res) => {
     req.params.itemId,
     { $addToSet: { likes: req.user._id } },
     { new: true }
-  );
+  )
+    .then((item) => res.status(ERROR_STATUS.OK).send({ data: item }))
+    .catch((err) => {
+      console.error(err);
+      res
+        .status(ERROR_STATUS.INTERNAL_SERVER.code)
+        .send({ message: ERROR_STATUS.INTERNAL_SERVER.message });
+    });
 };
 
 const unlikeItem = (req, res) => {
@@ -56,7 +63,14 @@ const unlikeItem = (req, res) => {
     req.params.itemId,
     { $pull: { likes: req.user._id } },
     { new: true }
-  );
+  )
+    .then((item) => res.status(ERROR_STATUS.OK).send({ data: item }))
+    .catch((err) => {
+      console.error(err);
+      res
+        .status(ERROR_STATUS.INTERNAL_SERVER.code)
+        .send({ message: ERROR_STATUS.INTERNAL_SERVER.message });
+    });
 };
 
 module.exports = { getItems, createItem, deleteItem, likeItem, unlikeItem };
