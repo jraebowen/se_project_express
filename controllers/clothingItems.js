@@ -10,13 +10,16 @@ const getItems = (req, res) => {
 };
 
 const createItem = (req, res) => {
-  const { name, weather, imageUrl, owner } = req.body;
+  const { name, weather, imageUrl } = req.body;
 
-  Item.create({ name, weather, imageUrl, owner })
+  Item.create({ name, weather, imageUrl })
     .then((item) => res.status(201).send({ item }))
     .catch((err) => {
       console.error(err);
-      res.status(500).send({ message: "Internal server error" });
+      if (err.name === "ValidationError") {
+        return res.status(400).send({ message: err.message });
+      }
+      return res.status(500).send({ message: "Internal server error" });
     });
 };
 

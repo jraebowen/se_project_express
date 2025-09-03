@@ -10,11 +10,22 @@ const getUsers = (req, res) => {
 };
 
 const getUser = (req, res) => {
-  User.findById(req.params.id)
-    .then((user) => res.status(200).send(user))
+  const { userId } = req.params;
+  User.findById(userId)
+    .orFail()
+    .then((user) => {
+      return res.status(200).send(user);
+    })
     .catch((err) => {
       console.error(err);
-      res.status(500).send({ message: "Internal server error" });
+      if (err.name === "CastError") {
+        return res.status(400).send({ message: err.message });
+      }
+      if (err.name === "DocumentNotFoundError") {
+        return res.status(404).send({ message: err.message });
+      }
+
+      return res.status(500).send({ message: "Internal server error" });
     });
 };
 
@@ -25,7 +36,10 @@ const createUser = (req, res) => {
     .then((user) => res.status(201).send({ user }))
     .catch((err) => {
       console.error(err);
-      res.status(500).send({ message: "Internal server error" });
+      if (err.name === "ValidationError") {
+        return res.status(400).send({ message: err.message });
+      }
+      return res.status(500).send({ message: "Internal server error" });
     });
 };
 
