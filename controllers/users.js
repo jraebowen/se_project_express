@@ -16,9 +16,7 @@ const getUser = (req, res) => {
   const { userId } = req.params;
   User.findById(userId)
     .orFail()
-    .then((user) => {
-      return res.status(ERROR_STATUS.OK).send(user);
-    })
+    .then((user) => res.status(ERROR_STATUS.OK).send(user))
     .catch((err) => {
       console.error(err);
       if (err.name === "CastError") {
