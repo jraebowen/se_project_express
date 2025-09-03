@@ -33,7 +33,7 @@ const createItem = (req, res) => {
 };
 
 const deleteItem = (req, res) => {
-  ClothingItem.findByIdAndDelete(req.params.id)
+  ClothingItem.findByIdAndDelete(req.params._id)
     .then((item) => res.status(ERROR_STATUS.OK).send({ data: item }))
     .catch((err) => {
       console.error(err);
@@ -43,4 +43,20 @@ const deleteItem = (req, res) => {
     });
 };
 
-module.exports = { getItems, createItem, deleteItem };
+const likeItem = (req, res) => {
+  ClothingItem.findByIdAndUpdate(
+    req.params.itemId,
+    { $addToSet: { likes: req.user._id } },
+    { new: true }
+  );
+};
+
+const unlikeItem = (req, res) => {
+  ClothingItem.findByIdAndUpdate(
+    req.params.itemId,
+    { $pull: { likes: req.user._id } },
+    { new: true }
+  );
+};
+
+module.exports = { getItems, createItem, deleteItem, likeItem, unlikeItem };
