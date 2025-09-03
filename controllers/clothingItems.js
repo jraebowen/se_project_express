@@ -33,11 +33,23 @@ const createItem = (req, res) => {
 };
 
 const deleteItem = (req, res) => {
-  ClothingItem.findByIdAndDelete(req.params._id)
-    .then((item) => res.status(ERROR_STATUS.OK).send({ data: item }))
+  ClothingItem.findByIdAndDelete(req.params.itemId)
+    .then((item) => {
+      if (!item) {
+        return res
+          .status(ERROR_STATUS.NOT_FOUND)
+          .send({ message: "Item not found" });
+      }
+      return res.status(ERROR_STATUS.OK).send({ data: item });
+    })
     .catch((err) => {
       console.error(err);
-      res
+      if (err.name === "CastError") {
+        return res
+          .status(ERROR_STATUS.BAD_REQUEST)
+          .send({ message: "Invalid id" });
+      }
+      return res
         .status(ERROR_STATUS.INTERNAL_SERVER.code)
         .send({ message: ERROR_STATUS.INTERNAL_SERVER.message });
     });
@@ -49,10 +61,22 @@ const likeItem = (req, res) => {
     { $addToSet: { likes: req.user._id } },
     { new: true }
   )
-    .then((item) => res.status(ERROR_STATUS.OK).send({ data: item }))
+    .then((item) => {
+      if (!item) {
+        return res
+          .status(ERROR_STATUS.NOT_FOUND)
+          .send({ message: "Item not found" });
+      }
+      return res.status(ERROR_STATUS.OK).send({ data: item });
+    })
     .catch((err) => {
       console.error(err);
-      res
+      if (err.name === "CastError") {
+        return res
+          .status(ERROR_STATUS.BAD_REQUEST)
+          .send({ message: "Invalid id" });
+      }
+      return res
         .status(ERROR_STATUS.INTERNAL_SERVER.code)
         .send({ message: ERROR_STATUS.INTERNAL_SERVER.message });
     });
@@ -64,10 +88,22 @@ const unlikeItem = (req, res) => {
     { $pull: { likes: req.user._id } },
     { new: true }
   )
-    .then((item) => res.status(ERROR_STATUS.OK).send({ data: item }))
+    .then((item) => {
+      if (!item) {
+        return res
+          .status(ERROR_STATUS.NOT_FOUND)
+          .send({ message: "Item not found" });
+      }
+      return res.status(ERROR_STATUS.OK).send({ data: item });
+    })
     .catch((err) => {
       console.error(err);
-      res
+      if (err.name === "CastError") {
+        return res
+          .status(ERROR_STATUS.BAD_REQUEST)
+          .send({ message: "Invalid id" });
+      }
+      return res
         .status(ERROR_STATUS.INTERNAL_SERVER.code)
         .send({ message: ERROR_STATUS.INTERNAL_SERVER.message });
     });
