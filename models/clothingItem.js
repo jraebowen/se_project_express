@@ -31,7 +31,7 @@ const clothingItemSchema = new mongoose.Schema({
   likes: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user", // 👈 again points to the User model
+      ref: "user",
     },
   ],
   createdAt: {
