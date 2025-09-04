@@ -15,7 +15,7 @@ const getUsers = (req, res) => {
 const getUser = (req, res) => {
   const { userId } = req.params;
   User.findById(userId)
-    .orFail()
+    .orFail(() => new Error("DocumentNotFoundError"))
     .then((user) => res.status(ERROR_STATUS.OK).send(user))
     .catch((err) => {
       console.error(err);
@@ -27,7 +27,7 @@ const getUser = (req, res) => {
       if (err.name === "DocumentNotFoundError") {
         return res
           .status(ERROR_STATUS.NOT_FOUND)
-          .send({ message: err.message });
+          .send({ message: "User not found" });
       }
 
       return res
