@@ -47,7 +47,7 @@ const deleteItem = (req, res) => {
       if (err.name === "CastError") {
         return res
           .status(ERROR_STATUS.BAD_REQUEST)
-          .send({ message: "Invalid id" });
+          .send({ message: err.message });
       }
       return res
         .status(ERROR_STATUS.INTERNAL_SERVER.code)
@@ -74,7 +74,7 @@ const likeItem = (req, res) => {
       if (err.name === "CastError") {
         return res
           .status(ERROR_STATUS.BAD_REQUEST)
-          .send({ message: "Invalid id" });
+          .send({ message: err.message });
       }
       return res
         .status(ERROR_STATUS.INTERNAL_SERVER.code)
