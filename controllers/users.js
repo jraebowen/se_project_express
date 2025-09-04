@@ -24,7 +24,7 @@ const getUser = (req, res) => {
           .status(ERROR_STATUS.BAD_REQUEST)
           .send({ message: err.message });
       }
-      if (err.name === "DocumentNotFoundError") {
+      if (err.message === "DocumentNotFoundError") {
         return res
           .status(ERROR_STATUS.NOT_FOUND)
           .send({ message: "User not found" });
