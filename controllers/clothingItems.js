@@ -18,7 +18,7 @@ const createItem = (req, res) => {
   const owner = req.user._id;
 
   ClothingItem.create({ name, weather, imageUrl, owner })
-    .then((item) => res.status(ERROR_STATUS.CREATED).json({ item }))
+    .then((item) => res.status(ERROR_STATUS.CREATED).json(item))
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
@@ -40,7 +40,7 @@ const deleteItem = (req, res) => {
           .status(ERROR_STATUS.NOT_FOUND)
           .send({ message: "Item not found" });
       }
-      return res.status(ERROR_STATUS.OK).send({ data: item });
+      return res.status(ERROR_STATUS.OK).send(item);
     })
     .catch((err) => {
       console.error(err);
@@ -67,7 +67,7 @@ const likeItem = (req, res) => {
           .status(ERROR_STATUS.NOT_FOUND)
           .send({ message: "Item not found" });
       }
-      return res.status(ERROR_STATUS.OK).send({ data: item });
+      return res.status(ERROR_STATUS.OK).send(item);
     })
     .catch((err) => {
       console.error(err);
@@ -94,7 +94,7 @@ const unlikeItem = (req, res) => {
           .status(ERROR_STATUS.NOT_FOUND)
           .send({ message: "Item not found" });
       }
-      return res.status(ERROR_STATUS.OK).send({ data: item });
+      return res.status(ERROR_STATUS.OK).send(item);
     })
     .catch((err) => {
       console.error(err);
