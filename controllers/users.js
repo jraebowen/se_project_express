@@ -81,13 +81,30 @@ const login = (req, res) => {
 
 const updateProfile = (req, res) => {
   const { name, avatar } = req.body;
-  const updatedUser = User.findByIdAndUpdate(
+  User.findByIdAndUpdate(
     req.user._id,
     { name, avatar },
-    { new: true, runValidators: true, upsert: true }
+    { new: true, runValidators: true }
   )
+    .orFail(() => new Error("DocumentNotFoundError"))
     .then((updatedUser) => res.send(updatedUser))
-    .catch((err) => res.send({ message: err.message }));
+    .catch((err) => {
+      console.error(err);
+      if (err.name === "ValidationError") {
+        return res
+          .status(ERROR_STATUS.BAD_REQUEST)
+          .send({ message: err.message });
+      }
+      if (err.message === "DocumentNotFoundError") {
+        return res
+          .status(ERROR_STATUS.NOT_FOUND)
+          .send({ message: "User not found" });
+      }
+
+      return res
+        .status(ERROR_STATUS.INTERNAL_SERVER.code)
+        .send({ message: ERROR_STATUS.INTERNAL_SERVER.message });
+    });
 };
 
 module.exports = { getUsers, getCurrentUser, createUser, login, updateProfile };

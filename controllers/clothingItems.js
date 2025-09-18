@@ -33,21 +33,42 @@ const createItem = (req, res) => {
 };
 
 const deleteItem = (req, res) => {
-  ClothingItem.findByIdAndDelete(req.params.itemId)
+  const itemId = req.params.itemID;
+  const userId = req.user._id;
+  ClothingItem.findById(itemId)
     .then((item) => {
       if (!item) {
         return res
           .status(ERROR_STATUS.NOT_FOUND)
           .send({ message: "Item not found" });
       }
-      return res.status(ERROR_STATUS.OK).send(item);
+      if (userId.toString() !== item.owner.toString()) {
+        return res
+          .status(ERROR_STATUS.FORBIDDEN)
+          .send({ message: "Action not authorized" });
+      }
+      return ClothingItem.findByIdAndDelete(itemId)
+        .then(() => {
+          res.send({ message: "Item deleted successfully" });
+        })
+        .catch((err) => {
+          console.error(err);
+          if (err.name === "CastError") {
+            return res
+              .status(ERROR_STATUS.BAD_REQUEST)
+              .send({ message: "Invalid id" });
+          }
+          return res
+            .status(ERROR_STATUS.INTERNAL_SERVER.code)
+            .send({ message: ERROR_STATUS.INTERNAL_SERVER.message });
+        });
     })
     .catch((err) => {
       console.error(err);
       if (err.name === "CastError") {
         return res
           .status(ERROR_STATUS.BAD_REQUEST)
-          .send({ message: err.message });
+          .send({ message: "Invalid id" });
       }
       return res
         .status(ERROR_STATUS.INTERNAL_SERVER.code)
