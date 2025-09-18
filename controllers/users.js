@@ -15,8 +15,8 @@ const getUsers = (req, res) => {
     });
 };
 
-const getUser = (req, res) => {
-  const { userId } = req.params;
+const getCurrentUser = (req, res) => {
+  const { userId } = req.user;
   User.findById(userId)
     .orFail(() => new Error("DocumentNotFoundError"))
     .then((user) => res.status(ERROR_STATUS.OK).send(user))
@@ -79,4 +79,15 @@ const login = (req, res) => {
     });
 };
 
-module.exports = { getUsers, getUser, createUser };
+const updateProfile = (req, res) => {
+  const { name, avatar } = req.body;
+  const updatedUser = User.findByIdAndUpdate(
+    req.user._id,
+    { name, avatar },
+    { new: true, runValidators: true, upsert: true }
+  )
+    .then((updatedUser) => res.send(updatedUser))
+    .catch((err) => res.send({ message: err.message }));
+};
+
+module.exports = { getUsers, getCurrentUser, createUser, login, updateProfile };
