@@ -14,7 +14,7 @@ const getCurrentUser = (req, res) => {
       if (err.name === "CastError") {
         return res
           .status(ERROR_STATUS.BAD_REQUEST)
-          .send({ message: err.message });
+          .send({ message: "Invalid data" });
       }
       if (err.message === "DocumentNotFoundError") {
         return res
@@ -51,7 +51,7 @@ const createUser = (req, res) => {
       if (err.name === "ValidationError") {
         return res
           .status(ERROR_STATUS.BAD_REQUEST)
-          .send({ message: err.message });
+          .send({ message: "Invalid data" });
       }
       if (err.code === 11000) {
         return res
@@ -105,7 +105,7 @@ const updateProfile = (req, res) => {
       if (err.name === "ValidationError") {
         return res
           .status(ERROR_STATUS.BAD_REQUEST)
-          .send({ message: err.message });
+          .send({ message: "Invalid data" });
       }
       if (err.message === "DocumentNotFoundError") {
         return res

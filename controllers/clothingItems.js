@@ -23,7 +23,7 @@ const createItem = (req, res) => {
       if (err.name === "ValidationError") {
         return res
           .status(ERROR_STATUS.BAD_REQUEST)
-          .json({ message: err.message });
+          .json({ message: "Invalid id" });
       }
       return res
         .status(ERROR_STATUS.INTERNAL_SERVER.code)
@@ -94,7 +94,7 @@ const likeItem = (req, res) => {
       if (err.name === "CastError") {
         return res
           .status(ERROR_STATUS.BAD_REQUEST)
-          .send({ message: err.message });
+          .send({ message: "Invalid id" });
       }
       return res
         .status(ERROR_STATUS.INTERNAL_SERVER.code)
