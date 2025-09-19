@@ -1,5 +1,5 @@
-const ERROR_STATUS = require("../utils/errors");
 const jwt = require("jsonwebtoken");
+const ERROR_STATUS = require("../utils/errors");
 const JWT_SECRET = require("../utils/config");
 
 module.exports.auth = (req, res, next) => {
@@ -19,5 +19,5 @@ module.exports.auth = (req, res, next) => {
       .send({ message: "Authorization required" });
   }
   req.user = payload;
-  next();
+  return next();
 };

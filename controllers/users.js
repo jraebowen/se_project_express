@@ -1,19 +1,8 @@
-const User = require("../models/user");
-const ERROR_STATUS = require("../utils/errors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = require("../utils/config");
-
-const getUsers = (req, res) => {
-  User.find({})
-    .then((users) => res.status(ERROR_STATUS.OK).send(users))
-    .catch((err) => {
-      console.error(err);
-      res
-        .status(ERROR_STATUS.INTERNAL_SERVER.code)
-        .send({ message: ERROR_STATUS.INTERNAL_SERVER.message });
-    });
-};
+const User = require("../models/user");
+const ERROR_STATUS = require("../utils/errors");
 
 const getCurrentUser = (req, res) => {
   const { userId } = req.user;
@@ -44,9 +33,20 @@ const createUser = (req, res) => {
   bcrypt
     .hash(password, 10)
     .then((hash) => User.create({ name, avatar, email, password: hash }))
-    .then(({ _id, name, avatar, email }) =>
-      res.status(ERROR_STATUS.CREATED).send({ _id, name, avatar, email })
-    )
+    .then((user) => {
+      const {
+        _id,
+        name: userName,
+        avatar: userAvatar,
+        email: userEmail,
+      } = user;
+      res.status(ERROR_STATUS.CREATED).send({
+        _id,
+        name: userName,
+        avatar: userAvatar,
+        email: userEmail,
+      });
+    })
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
@@ -107,4 +107,4 @@ const updateProfile = (req, res) => {
     });
 };
 
-module.exports = { getUsers, getCurrentUser, createUser, login, updateProfile };
+module.exports = { getCurrentUser, createUser, login, updateProfile };
