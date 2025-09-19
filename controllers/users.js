@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = require("../utils/config");
+const { JWT_SECRET } = require("../utils/config");
 const User = require("../models/user");
 const ERROR_STATUS = require("../utils/errors");
 
@@ -70,7 +70,7 @@ const login = (req, res) => {
   if (!email || !password) {
     return res
       .status(ERROR_STATUS.BAD_REQUEST)
-      .send({ message: "Email and password are required" });
+      .send({ message: "Please enter valid email and password" });
   }
   return User.findUserByCredentials(email, password)
     .then((user) => {
