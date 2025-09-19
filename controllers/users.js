@@ -75,7 +75,18 @@ const login = (req, res) => {
       res.send({ token });
     })
     .catch((err) => {
-      res.status(ERROR_STATUS.UNAUTHORIZED).send({ message: err.message });
+      console.error(err);
+      if (err.name === "ValidationError") {
+        return res
+          .status(ERROR_STATUS.BAD_REQUEST)
+          .send({ message: err.message });
+      }
+      if (err.name === "unauthorized") {
+        res.status(ERROR_STATUS.UNAUTHORIZED).send({ message: err.message });
+      }
+      return res
+        .status(ERROR_STATUS.INTERNAL_SERVER.code)
+        .send({ message: ERROR_STATUS.INTERNAL_SERVER.message });
     });
 };
 
