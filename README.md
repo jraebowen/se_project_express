@@ -22,6 +22,11 @@ The back-end project is focused on creating a server for the WTWR application. Y
   - CDesigned schemas and models to define data structure
   - Connected Node.js to MongoDB using Mongoose for seamless data operations
   - Leveraged built-in validation and schema methods for data integrity
+- Authentication & Authorization
+  - Implemented secure password hashing using **bcryptjs**
+  - Used **jsonwebtoken (JWT)** for authentication and token-based session handling
+  - Created protected routes that require valid tokens for access
+  - Stored user information securely in the token payload to verify identity across requests
 - Error Handling
   - Implemented centralized error-handling middleware to standardize server responses
   - Used custom error classes to return meaningful HTTP status codes (e.g., 400 for bad requests, 404 for not found, 500 for server errors)
