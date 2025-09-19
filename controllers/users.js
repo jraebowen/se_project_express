@@ -81,7 +81,7 @@ const login = (req, res) => {
           .status(ERROR_STATUS.BAD_REQUEST)
           .send({ message: err.message });
       }
-      if (err.name === "unauthorized") {
+      if (err.name === "Unauthorized") {
         res.status(ERROR_STATUS.UNAUTHORIZED).send({ message: err.message });
       }
       return res
