@@ -5,7 +5,7 @@ const User = require("../models/user");
 const ERROR_STATUS = require("../utils/errors");
 
 const getCurrentUser = (req, res) => {
-  const { userId } = req.user;
+  const userId = req.user._id;
   User.findById(userId)
     .orFail(() => new Error("DocumentNotFoundError"))
     .then((user) => res.status(ERROR_STATUS.OK).send(user))
@@ -21,7 +21,6 @@ const getCurrentUser = (req, res) => {
           .status(ERROR_STATUS.NOT_FOUND)
           .send({ message: "User not found" });
       }
-
       return res
         .status(ERROR_STATUS.INTERNAL_SERVER.code)
         .send({ message: ERROR_STATUS.INTERNAL_SERVER.message });

@@ -13,7 +13,6 @@ const getItems = (req, res) => {
 };
 
 const createItem = (req, res) => {
-  console.log(req.user._id);
   const { name, weather, imageUrl } = req.body;
   const owner = req.user._id;
 
@@ -33,7 +32,7 @@ const createItem = (req, res) => {
 };
 
 const deleteItem = (req, res) => {
-  const itemId = req.params.itemID;
+  const itemId = req.params.itemId;
   const userId = req.user._id;
   ClothingItem.findById(itemId)
     .then((item) => {
