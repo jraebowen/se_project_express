@@ -93,6 +93,14 @@ const login = (req, res) => {
 
 const updateProfile = (req, res) => {
   const { name, avatar } = req.body;
+  const updateData = {};
+  if (name !== undefined) {
+    updateData.name = name;
+  }
+  if (avatar !== undefined) {
+    updateData.avatar = avatar;
+  }
+
   User.findByIdAndUpdate(
     req.user._id,
     { name, avatar },
