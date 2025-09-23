@@ -3,7 +3,6 @@ const userRouter = require("./users");
 const itemRouter = require("./clothingItems");
 const ERROR_STATUS = require("../utils/errors");
 const { login, createUser } = require("../controllers/users");
-const ERROR_STATUS = require("../utils/errors");
 
 router.post("/signin", login);
 router.post("/signup", createUser);
