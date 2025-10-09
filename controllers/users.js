@@ -101,11 +101,10 @@ const updateProfile = (req, res) => {
     updateData.avatar = avatar;
   }
 
-  User.findByIdAndUpdate(
-    req.user._id,
-    { name, avatar },
-    { new: true, runValidators: true }
-  )
+  User.findByIdAndUpdate(req.user._id, updateData, {
+    new: true,
+    runValidators: true,
+  })
     .orFail(() => new Error("DocumentNotFoundError"))
     .then((updatedUser) => res.send(updatedUser))
     .catch((err) => {
