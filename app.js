@@ -22,8 +22,6 @@ mongoose
 
 app.use(errorHandler);
 
-if (process.env.NODE_ENV !== "test") {
-  app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}`);
-  });
-}
+app.listen(PORT, () => {
+  console.log(`app is listening on ${PORT}`);
+});
