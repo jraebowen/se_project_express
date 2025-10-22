@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "The back-end project is focused on creating a server for the WTWR application. You’ll gain a deeper understanding of how to work with databases, set up security and testing, and deploy web applications on a remote machine. The eventual goal is to create a server with an API and user authorization. ## Running the Project `npm run start` — to launch the server",
   "main": "app.js",
+  "type": "module",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
@@ -20,6 +21,7 @@
   },
   "homepage": "https://github.com/ernesto-av-triple-ten/se_project_express#readme",
   "dependencies": {
+    "@jest/globals": "^30.2.0",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "express": "^4.21.2",
