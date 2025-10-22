@@ -27,7 +27,7 @@ const createItem = (req, res, next) => {
 const deleteItem = (req, res, next) => {
   const { itemId } = req.params;
   const userId = req.user._id;
-  ClothingItem.findById(itemId)
+  return ClothingItem.findById(itemId)
     .then((item) => {
       if (!item) {
         throw new NotFoundError("Item not found");
@@ -43,7 +43,7 @@ const deleteItem = (req, res, next) => {
           if (err.name === "CastError") {
             return next(new BadRequestError("Invalid id"));
           }
-          next(err);
+          return next(err);
         });
     })
     .catch((err) => {
