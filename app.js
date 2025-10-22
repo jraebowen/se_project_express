@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const errorHandler = require("./middlewares/error-handler");
 
 const app = express();
 const { PORT = 3001 } = process.env;
@@ -19,6 +20,10 @@ mongoose
   })
   .catch(console.error);
 
-app.listen(PORT, () => {
-  console.log(`app is listening on ${PORT}`);
-});
+app.use(errorHandler);
+
+if (process.env.NODE_ENV !== "test") {
+  app.listen(PORT, () => {
+    console.log(`App listening on port ${PORT}`);
+  });
+}
