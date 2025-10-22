@@ -19,9 +19,8 @@ const createItem = (req, res, next) => {
     .catch((err) => {
       if (err.name === "ValidationError") {
         return next(new BadRequestError("Item could not be created"));
-      } else {
-        return next(err);
       }
+      return next(err);
     });
 };
 
@@ -43,17 +42,15 @@ const deleteItem = (req, res, next) => {
         .catch((err) => {
           if (err.name === "CastError") {
             return next(new BadRequestError("Invalid id"));
-          } else {
-            next(err);
           }
+          next(err);
         });
     })
     .catch((err) => {
       if (err.name === "CastError") {
         return next(new BadRequestError("Invalid id"));
-      } else {
-        return next(err);
       }
+      return next(err);
     });
 };
 
@@ -72,9 +69,8 @@ const likeItem = (req, res, next) => {
     .catch((err) => {
       if (err.name === "CastError") {
         return next(new BadRequestError("Invalid id"));
-      } else {
-        return next(err);
       }
+      return next(err);
     });
 };
 
@@ -93,9 +89,8 @@ const unlikeItem = (req, res, next) => {
     .catch((err) => {
       if (err.name === "CastError") {
         return next(new BadRequestError("Invalid id"));
-      } else {
-        return next(err);
       }
+      return next(err);
     });
 };
 
