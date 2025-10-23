@@ -31,6 +31,6 @@ mongoose
   })
   .catch(console.error);
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`app is listening on ${PORT}`);
 });
