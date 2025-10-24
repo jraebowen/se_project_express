@@ -8,6 +8,8 @@ The back-end project is focused on creating a server for the WTWR application. Y
 
 `npm run dev` — to launch the server with the hot reload feature
 
+`domain name` - https://whattowear.wildsurf.net/
+
 ### Technologies and Techniques
 
 - Node.js
@@ -34,5 +36,6 @@ The back-end project is focused on creating a server for the WTWR application. Y
 
 **Final Project**
 
-- [Link to live project](https://jraebowen.github.io/se_project_react/)
-- Recorded overview of project: (To Be Updated)
+- Live site: (https://whattowear.wildsurf.net/)
+- Frontend repository: https://github.com/jraebowen/se_project_react
+- Recorded overview of project: (https://www.loom.com/share/3c4c1f06d57642dcb76aba975067cd26)
