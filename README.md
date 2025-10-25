@@ -38,4 +38,4 @@ The back-end project is focused on creating a server for the WTWR application. Y
 
 - Live site: (https://whattowear.wildsurf.net/)
 - Frontend repository: https://github.com/jraebowen/se_project_react
-- Recorded overview of project: (https://www.loom.com/share/3c4c1f06d57642dcb76aba975067cd26)
+- Recorded overview of project: (https://www.loom.com/share/d7a06386872d4ec79b5f4620c2ebec90)
