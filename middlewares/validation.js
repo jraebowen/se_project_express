@@ -1,6 +1,5 @@
 const { Joi, celebrate } = require("celebrate");
 const validator = require("validator");
-const { getCurrentUser } = require("../controllers/users");
 
 const validateURL = (value, helpers) => {
   if (validator.isURL(value)) {
