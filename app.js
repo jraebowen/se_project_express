@@ -34,11 +34,7 @@ app.use(errorHandler);
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/wtwr_db")
-  .then(() => {
-    console.log("connected to the db");
-  })
+  .then(() => {})
   .catch(console.error);
 
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`app is listening on ${PORT}`);
-});
+app.listen(PORT, "0.0.0.0", () => {});
